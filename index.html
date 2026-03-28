@@ -49,9 +49,7 @@
                 <h2 class="text-3xl font-bold italic"><i class="fas fa-terminal text-blue-500 mr-2"></i> Latest Insights & Projects</h2>
                 <span class="text-slate-500 text-sm">Sorted by: Newest</span>
             </div>
-
-            <div id="posts-container" class="grid md:grid-cols-2 gap-8">
-                </div>
+            <div id="posts-container" class="grid md:grid-cols-2 gap-8"></div>
         </section>
 
     </main>
@@ -59,26 +57,21 @@
     <footer id="contact" class="border-t border-slate-800 py-12 bg-slate-900/50 text-center">
         
         <div class="flex justify-center items-center gap-8 text-2xl mb-6">
-            
             <a href="mailto:aaduhalde@outlook.es" title="Email Me" class="hover:text-blue-500 transition flex items-center justify-center">
                 <i class="fas fa-envelope"></i>
             </a>
-            
             <a href="http://www.linkedin.com/in/aaduhalde" target="_blank" title="LinkedIn Profile" class="hover:text-blue-500 transition flex items-center justify-center">
                 <i class="fab fa-linkedin"></i>
             </a>
-            
             <a href="https://github.com/aaduhalde" target="_blank" title="GitHub Repositories" class="hover:text-blue-500 transition flex items-center justify-center">
                 <i class="fab fa-github"></i>
             </a>
-
             <a href="https://loom.com/share/folder/3778618c1d4f4fb48a786111c4ea378d" target="_blank" title="Watch my Demos on Loom" class="hover:text-blue-500 transition flex items-center justify-center" style="width: 1em; height: 1em; text-decoration: none;">
                 <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; display: block;">
                     <path d="M16 8C11.58 8 8 11.58 8 16s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 13.6c-3.09 0-5.6-2.51-5.6-5.6s2.51-5.6 5.6-5.6 5.6 2.51 5.6 5.6-2.51 5.6-5.6 5.6z"/>
                     <path d="M16 0C7.16 0 0 7.16 0 16s7.16 16 16 16 16-7.16 16-16S24.84 0 16 0zm0 28.8C8.93 28.8 3.2 23.07 3.2 16S8.93 3.2 16 3.2c7.07 0 12.8 5.73 12.8 12.8S23.07 28.8 16 28.8z"/>
                 </svg>
             </a>
-
         </div>
                 
         <p class="text-sm text-slate-500">© 2026 Alejandro Adrián Duhalde | Data Solutions Engineer</p>
@@ -86,104 +79,101 @@
         <div class="mt-10 pt-6 border-t border-slate-800">
             <p class="text-slate-500 text-xs mb-4 uppercase tracking-widest">Support my work</p>
             <a href="https://www.paypal.com/donate/?hosted_button_id=65YDH96UCMCM8" 
-            target="_blank" 
-            class="inline-flex items-center gap-2 bg-[#0070ba] hover:bg-[#005ea6] text-white px-5 py-2 rounded-full font-bold text-sm transition-all transform hover:scale-105 shadow-lg">
+               target="_blank" 
+               class="inline-flex items-center gap-2 bg-[#0070ba] hover:bg-[#005ea6] text-white px-5 py-2 rounded-full font-bold text-sm transition-all transform hover:scale-105 shadow-lg">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20.072 8.047c-.492-2.556-2.28-4.043-4.836-4.473C14.072 3.38 12.8 3.38 11.232 3.38H6.556a.715.715 0 0 0-.708.618L3.434 19.344a.434.434 0 0 0 .428.496h3.402l.83-5.266a.715.715 0 0 1 .708-.604h1.76c3.27 0 5.845-1.33 6.59-5.013.3-1.488.196-2.61-.41-3.41l.33.5z"/>
                 </svg>
                 Donate with PayPal
             </a>
         </div>
-   
-    <div id="chatbot-wrapper">
-    <div id="chat-button" style="position:fixed; bottom:20px; right:20px; background:#2563eb; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2V4M5 10H3M21 10H19M12 4C8.68629 4 6 6.68629 6 10V16C6 19.3137 8.68629 22 12 22C15.3137 22 18 19.3137 18 16V10C18 6.68629 15.3137 4 12 4ZM9 12H10V14H9V12ZM14 12H15V14H14V12Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </div>
-
-    <div id="chat-window" style="position:fixed; bottom:90px; right:20px; width:320px; height:450px; background:white; border:1px solid #e0e0e0; border-radius:15px; display:none; flex-direction:column; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; z-index:9999; box-shadow: 0 8px 24px rgba(0,0,0,0.2); overflow:hidden;">
-        <div style="background:#2563eb; color:white; padding:15px; font-weight:bold; display:flex; align-items:center; gap:10px;">
-            <div style="width:10px; height:10px; background:#4ade80; border-radius:50%; box-shadow: 0 0 5px #4ade80;"></div>
-            Alejandro - AI Assistant
-        </div>
-        
-        <div id="chat-messages" style="flex:1; padding:15px; overflow-y:auto; background:#f8f9fa; display:flex; flex-direction:column; gap:10px; color:#333;"></div>
-        
-        <div id="typing-indicator" style="padding: 10px 15px; font-size: 12px; color: #888; display: none; background: #f8f9fa; font-style: italic;">Alejandro is typing...</div>
-        
-        <div style="border-top:1px solid #eee; padding:12px; background:white;">
-            <input id="chat-input" type="text" placeholder="Type a message..." style="width:100%; border:none; outline:none; font-size:14px; color:#333; background:transparent;">
-        </div>
-    </div>
-</div>
-
-            <script>
-                (function() {
-                    const workerURL = "https://bot.aadm-434.workers.dev/";
-                    const button = document.getElementById("chat-button");
-                    const windowChat = document.getElementById("chat-window");
-                    const messages = document.getElementById("chat-messages");
-                    const input = document.getElementById("chat-input");
-                    const typingIndicator = document.getElementById("typing-indicator");
-
-                    button.onclick = () => {
-                        const isHidden = windowChat.style.display === "none";
-                        windowChat.style.display = isHidden ? "flex" : "none";
-                        if(isHidden) {
-                            input.focus();
-                            if(messages.children.length === 0) {
-                                setTimeout(() => addMessage("Bot", "Hello 👋! How can I help you today?"), 500);
-                            }
-                        }
-                    };
-
-                    function addMessage(sender, text) {
-                        const isBot = sender === "Bot";
-                        const msgDiv = document.createElement("div");
-                        msgDiv.style.alignSelf = isBot ? "flex-start" : "flex-end";
-                        msgDiv.style.maxWidth = "85%";
-                        msgDiv.style.padding = "10px 14px";
-                        msgDiv.style.borderRadius = "12px";
-                        msgDiv.style.fontSize = "14px";
-                        msgDiv.style.lineHeight = "1.5";
-                        msgDiv.style.background = isBot ? "#e9ecef" : "#2563eb";
-                        msgDiv.style.color = isBot ? "#333" : "white";
-                        msgDiv.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-                        messages.appendChild(msgDiv);
-                        messages.scrollTop = messages.scrollHeight;
-                    }
-
-                    async function sendMessage(text) {
-                        addMessage("You", text);
-                        typingIndicator.style.display = "block";
-                        try {
-                            const response = await fetch(workerURL, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ message: text })
-                            });
-                            const data = await response.json();
-                            typingIndicator.style.display = "none";
-                            addMessage("Bot", data.reply || "I'm sorry, I couldn't process your request.");
-                        } catch (err) {
-                            typingIndicator.style.display = "none";
-                            addMessage("Bot", "Connection error. Please try again. 🔌");
-                        }
-                    }
-
-                    input.addEventListener("keypress", (e) => {
-                        if (e.key === "Enter" && input.value.trim()) {
-                            const text = input.value.trim();
-                            input.value = "";
-                            sendMessage(text);
-                        }
-                    });
-                })();
-            </script>
     </footer>
 
+    <div id="chatbot-wrapper">
+        <div id="chat-button" style="position:fixed; bottom:20px; right:20px; background:#2563eb; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2V4M5 10H3M21 10H19M12 4C8.68629 4 6 6.68629 6 10V16C6 19.3137 8.68629 22 12 22C15.3137 22 18 19.3137 18 16V10C18 6.68629 15.3137 4 12 4ZM9 12H10V14H9V12ZM14 12H15V14H14V12Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <div id="chat-window" style="position:fixed; bottom:90px; right:20px; width:320px; height:450px; background:white; border:1px solid #e0e0e0; border-radius:15px; display:none; flex-direction:column; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; z-index:9999; box-shadow: 0 8px 24px rgba(0,0,0,0.2); overflow:hidden;">
+            <div style="background:#2563eb; color:white; padding:15px; font-weight:bold; display:flex; align-items:center; gap:10px;">
+                <div style="width:10px; height:10px; background:#4ade80; border-radius:50%; box-shadow: 0 0 5px #4ade80;"></div>
+                Alejandro - AI Assistant
+            </div>
+            <div id="chat-messages" style="flex:1; padding:15px; overflow-y:auto; background:#f8f9fa; display:flex; flex-direction:column; gap:10px; color:#333;"></div>
+            <div id="typing-indicator" style="padding: 10px 15px; font-size: 12px; color: #888; display: none; background: #f8f9fa; font-style: italic;">Alejandro is typing...</div>
+            <div style="border-top:1px solid #eee; padding:12px; background:white;">
+                <input id="chat-input" type="text" placeholder="Type a message..." style="width:100%; border:none; outline:none; font-size:14px; color:#333; background:transparent;">
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Chatbot Logic
+        (function() {
+            const workerURL = "https://bot.aadm-434.workers.dev/";
+            const button = document.getElementById("chat-button");
+            const windowChat = document.getElementById("chat-window");
+            const messages = document.getElementById("chat-messages");
+            const input = document.getElementById("chat-input");
+            const typingIndicator = document.getElementById("typing-indicator");
+
+            button.onclick = () => {
+                const isHidden = windowChat.style.display === "none";
+                windowChat.style.display = isHidden ? "flex" : "none";
+                if(isHidden) {
+                    input.focus();
+                    if(messages.children.length === 0) {
+                        setTimeout(() => addMessage("Bot", "Hello 👋! How can I help you today?"), 500);
+                    }
+                }
+            };
+
+            function addMessage(sender, text) {
+                const isBot = sender === "Bot";
+                const msgDiv = document.createElement("div");
+                msgDiv.style.alignSelf = isBot ? "flex-start" : "flex-end";
+                msgDiv.style.maxWidth = "85%";
+                msgDiv.style.padding = "10px 14px";
+                msgDiv.style.borderRadius = "12px";
+                msgDiv.style.fontSize = "14px";
+                msgDiv.style.lineHeight = "1.5";
+                msgDiv.style.background = isBot ? "#e9ecef" : "#2563eb";
+                msgDiv.style.color = isBot ? "#333" : "white";
+                msgDiv.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+                messages.appendChild(msgDiv);
+                messages.scrollTop = messages.scrollHeight;
+            }
+
+            async function sendMessage(text) {
+                addMessage("You", text);
+                typingIndicator.style.display = "block";
+                try {
+                    const response = await fetch(workerURL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ message: text })
+                    });
+                    const data = await response.json();
+                    typingIndicator.style.display = "none";
+                    addMessage("Bot", data.reply || "I'm sorry, I couldn't process your request.");
+                } catch (err) {
+                    typingIndicator.style.display = "none";
+                    addMessage("Bot", "Connection error. Please try again. 🔌");
+                }
+            }
+
+            input.addEventListener("keypress", (e) => {
+                if (e.key === "Enter" && input.value.trim()) {
+                    const text = input.value.trim();
+                    input.value = "";
+                    sendMessage(text);
+                }
+            });
+        })();
+
+        // Posts Renderer
         const posts = [
             {
                 title: "AI Agent for Customer Support: Automation with OpenAI + Google Sheets",
@@ -204,7 +194,6 @@
         ];
 
         const container = document.getElementById('posts-container');
-
         posts.forEach(post => {
             container.innerHTML += `
                 <article class="bg-slate-800/60 rounded-2xl overflow-hidden border border-slate-700 card-hover flex flex-col">
