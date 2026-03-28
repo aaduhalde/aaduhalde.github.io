@@ -63,6 +63,105 @@
             <a href="https://github.com/aaduhalde" class="hover:text-blue-500 transition"><i class="fab fa-github"></i></a>
         </div>
         <p class="text-sm text-slate-500">© 2026 Alejandro Adrián Duhalde | Data Solutions Engineer</p>
+    <div id="chatbot-wrapper">
+    <div id="chat-button" style="position:fixed; bottom:20px; right:20px; background:#2563eb; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;">
+        <svg viewBox="0 0 24 24" fill="white" width="30" height="30"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zM11 11H9v2h2v2h2v-2h2v-2h-2V9h-2v2z"/></svg>
+    </div>
+
+    <div id="chat-window" style="position:fixed; bottom:90px; right:20px; width:320px; height:450px; background:white; border:1px solid #e0e0e0; border-radius:15px; display:none; flex-direction:column; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; z-index:9999; box-shadow: 0 8px 24px rgba(0,0,0,0.2); overflow:hidden;">
+        <div style="background:#2563eb; color:white; padding:15px; font-weight:bold; display:flex; align-items:center; gap:10px;">
+            <div style="width:10px; height:10px; background:#4ade80; border-radius:50%; box-shadow: 0 0 5px #4ade80;"></div>
+            Alejandro - AI Assistant
+        </div>
+        
+        <div id="chat-messages" style="flex:1; padding:15px; overflow-y:auto; background:#f8f9fa; display:flex; flex-direction:column; gap:10px; color:#333;"></div>
+        
+        <div id="typing-indicator" style="padding: 10px 15px; font-size: 12px; color: #888; display: none; background: #f8f9fa;">Alejandro is typing...</div>
+        
+        <div style="border-top:1px solid #eee; padding:12px; background:white;">
+            <input id="chat-input" type="text" placeholder="Type a message..." style="width:100%; border:none; outline:none; font-size:14px; color:#333; background:transparent;">
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const workerURL = "https://bot.aadm-434.workers.dev/";
+        const button = document.getElementById("chat-button");
+        const windowChat = document.getElementById("chat-window");
+        const messages = document.getElementById("chat-messages");
+        const input = document.getElementById("chat-input");
+        const typingIndicator = document.getElementById("typing-indicator");
+
+        // Toggle chat window
+        button.onclick = () => {
+            const isHidden = windowChat.style.display === "none";
+            windowChat.style.display = isHidden ? "flex" : "none";
+            if(isHidden) {
+                input.focus();
+                if(messages.children.length === 0) {
+                    setTimeout(() => addMessage("Bot", "Hello 👋! How can I help you today?"), 500);
+                }
+            }
+        };
+
+        function addMessage(sender, text) {
+            const isBot = sender === "Bot";
+            const msgDiv = document.createElement("div");
+            msgDiv.style.alignSelf = isBot ? "flex-start" : "flex-end";
+            msgDiv.style.maxWidth = "85%";
+            msgDiv.style.padding = "10px 14px";
+            msgDiv.style.borderRadius = "12px";
+            msgDiv.style.fontSize = "14px";
+            msgDiv.style.lineHeight = "1.4";
+            msgDiv.style.background = isBot ? "#e9ecef" : "#2563eb";
+            msgDiv.style.color = isBot ? "#333" : "white";
+            
+            // Basic Markdown-like formatting for bold and new lines
+            msgDiv.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+            
+            messages.appendChild(msgDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        async function sendMessage(text) {
+            addMessage("You", text);
+            typingIndicator.style.display = "block";
+            messages.scrollTop = messages.scrollHeight;
+
+            try {
+                const response = await fetch(workerURL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: text })
+                });
+
+                const data = await response.json();
+                typingIndicator.style.display = "none";
+                
+                let botReply = data.reply || "I'm sorry, I couldn't process your request.";
+                if (data.url) {
+                    botReply += `<br><br><a href="${data.url}" target="_blank" style="color:#2563eb; font-weight:bold; text-decoration:underline;">View details 🔗</a>`;
+                }
+                
+                addMessage("Bot", botReply);
+            } catch (err) {
+                typingIndicator.style.display = "none";
+                addMessage("Bot", "Connection error. Please try again. 🔌");
+            }
+        }
+
+        input.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                const text = input.value.trim();
+                if (text) {
+                    input.value = "";
+                    sendMessage(text);
+                }
+            }
+        });
+    })();
+</script>
     </footer>
 
     <script>
@@ -106,156 +205,6 @@
             `;
         });
     </script>
-
  
-<div id="chatbot-container"></div>
-
-<script>
-const workerURL = "https://bot.aadm-434.workers.dev/";
-const botIconSVG = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:30px;height:30px;"><path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z" fill="white"/></svg>`;
-const primaryColor = "#2563eb"; 
-
-const container = document.getElementById("chatbot-container");
-
-container.innerHTML = `
-<div id="chat-window" style="
-  position:fixed;
-  bottom:90px;
-  right:20px;
-  width:320px;
-  height:450px;
-  background:white;
-  border:1px solid #e0e0e0;
-  border-radius:15px;
-  display:none;
-  flex-direction:column;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  z-index:9999;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-  overflow:hidden;
-">
-    <div style="background:${primaryColor}; color:white; padding:15px; display:flex; align-items:center; gap:10px; font-weight:bold;">
-        <div style="width:24px;height:24px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zM11 11H9v2h2v2h2v-2h2v-2h-2V9h-2v2z"/></svg>
-        </div>
-        Alejandro - AI Assistant
-    </div>
-
-    <div id="chat-messages" style="flex:1; padding:15px; overflow-y:auto; background:#f8f9fa; display:flex; flex-direction:column; gap:10px;"></div>
-
-    <div id="typing-indicator" style="padding: 10px 15px; font-size: 12px; color: #888; display: none; background: #f8f9fa;">
-        <span class="dots">Alejandro is typing...</span>
-    </div>
-
-    <div style="border-top:1px solid #eee; padding:10px; background:white;">
-        <input id="chat-input" placeholder="Type a message..." 
-        style="width:100%; border:none; outline:none; font-size:14px; background:transparent; color:#333;">
-    </div>
-</div>
-
-<div id="chat-button" style="
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:${primaryColor};
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  z-index:9999;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
-">
-    ${botIconSVG}
-</div>
-`;
-
-// ... 
-const button = document.getElementById("chat-button");
-const windowChat = document.getElementById("chat-window");
-const messages = document.getElementById("chat-messages");
-const input = document.getElementById("chat-input");
-const typingIndicator = document.getElementById("typing-indicator");
-
-button.onclick = () => {
-    windowChat.style.display = windowChat.style.display === "flex" ? "none" : "flex";
-    if(windowChat.style.display === "flex") input.focus();
-};
-
-function addMessage(sender, text) {
-    const isBot = sender === "Bot";
-    const msgDiv = document.createElement("div");
-    msgDiv.style.display = "flex";
-    msgDiv.style.width = "100%";
-    msgDiv.style.justifyContent = isBot ? "flex-start" : "flex-end";
-    msgDiv.style.marginBottom = "5px";
-
-    const formattedText = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-
-    msgDiv.innerHTML = `
-        <div style="
-            max-width: 85%; 
-            padding: 12px 16px; 
-            border-radius: 15px; 
-            font-size: 14px; 
-            line-height: 1.5; 
-            text-align: left; 
-            word-wrap: break-word;
-            ${isBot ? 
-                'background:#e9ecef; color:#333; border-bottom-left-radius:2px;' : 
-                `background:${primaryColor}; color:white; border-bottom-right-radius:2px;`
-            }">
-            ${formattedText}
-        </div>
-    `;
-    messages.appendChild(msgDiv);
-    messages.scrollTop = messages.scrollHeight;
-}
-
-async function sendMessage(text) {
-    addMessage("You", text);
-    typingIndicator.style.display = "block";
-    messages.scrollTop = messages.scrollHeight;
-
-    try {
-        const response = await fetch(workerURL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: text })
-        });
-
-        const data = await response.json();
-        typingIndicator.style.display = "none";
-        let botReply = data.reply || "I'm sorry, I couldn't process your request at the moment.";
-        
-        if (data.url) {
-            botReply += `<br><br><a href="${data.url}" target="_blank" style="display:inline-block; background:${primaryColor}; color:white; padding:10px 15px; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px; text-align:center;">View more details 🔗</a>`;
-        }
-        addMessage("Bot", botReply);
-    } catch (err) {
-        typingIndicator.style.display = "none";
-        addMessage("Bot", "Connection error. Please try again in a few moments. 🔌");
-    }
-}
-
-input.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-        const text = input.value.trim();
-        if (text === "") return;
-        input.value = "";
-        sendMessage(text);
-    }
-});
-
-setTimeout(() => {
-    if (messages.children.length === 0) {
-        addMessage("Bot", "Hello 👋! How can I help you today?");
-    }
-}, 1000);
-</script>
-
 </body>
 </html>
