@@ -106,5 +106,161 @@
             `;
         });
     </script>
+
+ 
+/* --- BOT ---*/
+
+<div id="chatbot-container"></div>
+
+<script>
+const workerURL = "https://bot.aadm-434.workers.dev/";
+const avatar = "https://img.icons8.com/ios-filled/50/ai-chatting.png";
+const primaryColor = "#2563eb"; // El azul de tu landing page
+
+const container = document.getElementById("chatbot-container");
+
+container.innerHTML = `
+<div id="chat-window" style="
+  position:fixed;
+  bottom:90px;
+  right:20px;
+  width:320px;
+  height:450px;
+  background:white;
+  border:1px solid #e0e0e0;
+  border-radius:15px;
+  display:none;
+  flex-direction:column;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  z-index:9999;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  overflow:hidden;
+">
+    <div style="background:${primaryColor}; color:white; padding:15px; display:flex; align-items:center; gap:10px; font-weight:bold;">
+        <img src="${avatar}" style="width:24px;height:24px;border-radius:50%; background:white; padding:2px;">
+        Alejandro - Soporte IA
+    </div>
+
+    <div id="chat-messages" style="flex:1; padding:15px; overflow-y:auto; background:#f8f9fa; display:flex; flex-direction:column; gap:10px;"></div>
+
+    <div id="typing-indicator" style="padding: 10px 15px; font-size: 12px; color: #888; display: none; background: #f8f9fa;">
+        <span class="dots">Alejandro está escribiendo...</span>
+    </div>
+
+    <div style="border-top:1px solid #eee; padding:10px; background:white;">
+        <input id="chat-input" placeholder="Escribe un mensaje..." 
+        style="width:100%; border:none; outline:none; font-size:14px; background:transparent; color:#333;">
+    </div>
+</div>
+
+<div id="chat-button" style="
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:${primaryColor};
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:9999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+">
+    <img src="${avatar}" style="width:30px;height:30px; filter: brightness(0) invert(1);">
+</div>
+`;
+
+const button = document.getElementById("chat-button");
+const windowChat = document.getElementById("chat-window");
+const messages = document.getElementById("chat-messages");
+const input = document.getElementById("chat-input");
+const typingIndicator = document.getElementById("typing-indicator");
+
+button.onclick = () => {
+    windowChat.style.display = windowChat.style.display === "flex" ? "none" : "flex";
+    if(windowChat.style.display === "flex") input.focus();
+};
+
+function addMessage(sender, text) {
+    const isBot = sender === "Bot";
+    const msgDiv = document.createElement("div");
+    
+    msgDiv.style.display = "flex";
+    msgDiv.style.width = "100%";
+    msgDiv.style.justifyContent = isBot ? "flex-start" : "flex-end";
+    msgDiv.style.marginBottom = "5px";
+
+    const formattedText = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+
+    msgDiv.innerHTML = `
+        <div style="
+            max-width: 85%; 
+            padding: 12px 16px; 
+            border-radius: 15px; 
+            font-size: 14px; 
+            line-height: 1.5; 
+            text-align: left; 
+            word-wrap: break-word;
+            ${isBot ? 
+                'background:#e9ecef; color:#333; border-bottom-left-radius:2px;' : 
+                `background:${primaryColor}; color:white; border-bottom-right-radius:2px;`
+            }">
+            ${formattedText}
+        </div>
+    `;
+    
+    messages.appendChild(msgDiv);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+async function sendMessage(text) {
+    addMessage("Tú", text);
+    typingIndicator.style.display = "block";
+    messages.scrollTop = messages.scrollHeight;
+
+    try {
+        const response = await fetch(workerURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: text })
+        });
+
+        const data = await response.json();
+        typingIndicator.style.display = "none";
+
+        let botReply = data.reply || "Lo siento, no pude procesar eso.";
+        
+        if (data.url) {
+            botReply += `<br><br><a href="${data.url}" target="_blank" style="display:inline-block; background:${primaryColor}; color:white; padding:10px 15px; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px; text-align:center;">Ver más detalles 🔗</a>`;
+        }
+
+        addMessage("Bot", botReply);
+
+    } catch (err) {
+        typingIndicator.style.display = "none";
+        addMessage("Bot", "Error de conexión. Por favor, reintenta en un momento. 🔌");
+    }
+}
+
+input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+        const text = input.value.trim();
+        if (text === "") return;
+        input.value = "";
+        sendMessage(text);
+    }
+});
+
+// Saludo inicial simplificado
+setTimeout(() => {
+    if (messages.children.length === 0) {
+        addMessage("Bot", "Hola 👋, ¿en qué puedo ayudarte?");
+    }
+}, 1000);
+</script>
+
 </body>
 </html>
