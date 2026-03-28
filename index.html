@@ -7,53 +7,55 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Estilos base y gradiente */
         .data-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
         .card-hover:hover { transform: translateY(-5px); border-color: #3b82f6; transition: all 0.3s ease; }
         
-        /* --- Limpieza y Estilo del Traductor de Google --- */
-        #google_translate_element {
-            display: inline-block;
-        }
-        .goog-logo-link, .goog-te-gadget span, .goog-te-banner-frame {
-            display: none !important;
-        }
-        .goog-te-gadget {
-            color: transparent !important;
-            font-size: 0 !important;
-        }
+        /* --- TRADUCTOR --- */
+        #google_translate_element { display: inline-block; vertical-align: middle; }
+        .goog-logo-link, .goog-te-gadget span { display: none !important; }
+        .goog-te-gadget { color: transparent !important; font-size: 0 !important; }
+        
+        /* visible y clickeable */
         .goog-te-combo {
+            display: block !important;
             background-color: #1e293b !important;
             border: 1px solid #3b82f6 !important;
             color: #f1f5f9 !important;
-            padding: 6px 10px !important;
-            border-radius: 8px !important;
-            outline: none !important;
-            font-family: inherit !important;
+            padding: 4px 8px !important;
+            border-radius: 6px !important;
             font-size: 13px !important;
-            cursor: pointer;
+            visibility: visible !important;
         }
-        /* Corregir margen superior que mete Google automáticamente */
-        body { top: 0 !important; }
-        .skiptranslate { display: none !important; }
-        .skiptranslate.goog-te-gadget { display: block !important; }
+
+        /* Evitar que Google oculte contenido al insertar su barra */
+        body { top: 0 !important; position: static !important; }
+        .goog-te-banner-frame { display: none !important; }
     </style>
 </head>
 <body class="data-gradient text-slate-200 min-h-screen">
 
-    <div class="fixed top-0 right-0 p-4 z-50 flex items-center gap-2 bg-slate-900/80 backdrop-blur-md rounded-bl-xl border-l border-b border-slate-700">
-        <i class="fas fa-language text-blue-400 text-xl"></i>
+    <div class="fixed top-4 right-4 z-50 flex items-center gap-2 bg-slate-900/90 backdrop-blur-md p-2 rounded-lg border border-slate-700 shadow-2xl">
+        <i class="fas fa-language text-blue-400 text-lg"></i>
         <div id="google_translate_element"></div>
     </div>
 
-    <header class="container mx-auto px-6 py-20 text-center">
+    <header class="container mx-auto px-6 py-24 text-center">
         <h1 class="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
             Alejandro Adrián Duhalde
         </h1>
-        <p class="text-xl text-slate-400 mb-8 max-w-2xl mx-auto">
-            Technical Business Analyst | Data Engineer<br>
-            <span class="text-blue-500 font-mono">I design scalable ETL pipelines and optimize data systems for real business impact.</span>
+        <p class="text-xl text-slate-400 mb-8 max-w-2xl mx-auto italic">
+            Technical Business Analyst | Data Engineer
         </p>
+        
+        <div class="flex flex-wrap justify-center gap-6 mb-12 opacity-80">
+            <div class="flex flex-col items-center"><i class="fab fa-python text-3xl text-blue-400"></i><span class="text-[10px] mt-1 uppercase">Python</span></div>
+            <div class="flex flex-col items-center"><i class="fas fa-database text-3xl text-emerald-400"></i><span class="text-[10px] mt-1 uppercase">SQL/T-SQL</span></div>
+            <div class="flex flex-col items-center"><i class="fab fa-microsoft text-3xl text-blue-500"></i><span class="text-[10px] mt-1 uppercase">Azure</span></div>
+            <div class="flex flex-col items-center"><i class="fab fa-aws text-3xl text-orange-400"></i><span class="text-[10px] mt-1 uppercase">AWS</span></div>
+            <div class="flex flex-col items-center"><i class="fas fa-chart-bar text-3xl text-yellow-500"></i><span class="text-[10px] mt-1 uppercase">Power BI</span></div>
+            <div class="flex flex-col items-center"><i class="fas fa-brain text-3xl text-purple-400"></i><span class="text-[10px] mt-1 uppercase">GenAI/RAG</span></div>
+        </div>
+
         <div class="flex justify-center gap-4">
             <a href="#contact" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-bold transition">Contact Me</a>
             <a href="#posts" class="border border-slate-700 hover:bg-slate-800 px-8 py-3 rounded-lg transition">Read My Posts</a>
@@ -61,90 +63,58 @@
     </header>
 
     <main class="container mx-auto px-6">
-        
-        <section class="grid md:grid-cols-3 gap-6 mb-20 text-sm">
-            <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700 card-hover">
-                <h3 class="font-bold text-blue-400 mb-3 uppercase tracking-tighter"><i class="fas fa-cogs mr-2"></i> What I Do</h3>
-                <p class="leading-relaxed">Optimize SQL Server (Queries, Indexes, SPs), Build Scalable ETL Pipelines (Azure/AWS), and automate 90% of manual reporting.</p>
-            </div>
-            <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700 card-hover">
-                <h3 class="font-bold text-emerald-400 mb-3 uppercase tracking-tighter"><i class="fas fa-code mr-2"></i> Tech Stack</h3>
-                <p class="leading-relaxed">Python, T-SQL, Serverless, Power BI, RAG (GenAI), and Multi-cloud integrations for global markets.</p>
-            </div>
-            <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700 card-hover">
-                <h3 class="font-bold text-purple-400 mb-3 uppercase tracking-tighter"><i class="fas fa-history mr-2"></i> Experience</h3>
-                <p class="leading-relaxed">+15 years delivering high-impact data systems across telecom, energy, and e-commerce sectors.</p>
-            </div>
-        </section>
-
         <section id="posts" class="mb-20">
-            <div class="flex items-center justify-between mb-10">
-                <h2 class="text-3xl font-bold italic"><i class="fas fa-terminal text-blue-500 mr-2"></i> Latest Insights & Projects</h2>
-                <span class="hidden md:block text-slate-500 text-sm font-mono">root@aaduhalde:~# ls -l projects/</span>
+            <div class="flex items-center justify-between mb-10 border-b border-slate-700 pb-4">
+                <h2 class="text-3xl font-bold font-mono text-blue-400">>_ Latest_Projects</h2>
             </div>
-
-            <div id="posts-container" class="grid md:grid-cols-2 gap-8">
-                </div>
+            <div id="posts-container" class="grid md:grid-cols-2 gap-8"></div>
         </section>
-
     </main>
 
     <footer id="contact" class="border-t border-slate-800 py-16 bg-slate-900/50 text-center">
-        <h2 class="text-3xl font-bold mb-4">Let's Connect</h2>
-        <p class="text-slate-400 mb-10">Ready to transform your data into business value?</p>
         <div class="flex justify-center gap-10 text-3xl mb-8">
-            <a href="mailto:aaduhalde@outlook.es" title="Email" class="hover:text-blue-500 transition"><i class="fas fa-envelope"></i></a>
-            <a href="http://www.linkedin.com/in/aaduhalde" title="LinkedIn" class="hover:text-blue-500 transition"><i class="fab fa-linkedin"></i></a>
-            <a href="https://github.com/aaduhalde" title="GitHub" class="hover:text-blue-500 transition"><i class="fab fa-github"></i></a>
+            <a href="mailto:aaduhalde@outlook.es" class="hover:text-blue-500 transition"><i class="fas fa-envelope"></i></a>
+            <a href="http://www.linkedin.com/in/aaduhalde" class="hover:text-blue-500 transition"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/aaduhalde" class="hover:text-blue-500 transition"><i class="fab fa-github"></i></a>
         </div>
-        <p class="text-sm text-slate-500 font-mono italic">Alejandro Adrián Duhalde | © 2026 Data Solutions Engineer</p>
+        <p class="text-sm text-slate-500 font-mono italic">Alejandro Adrián Duhalde | © 2026 Data Solutions</p>
     </footer>
 
     <script>
         const posts = [
             {
-                title: "AI Agent for Customer Support: Automation with OpenAI + Google Sheets",
+                title: "AI Agent for Customer Support: OpenAI + Google Sheets",
                 tag: "AI / Bot",
                 image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
-                description: "Build a serverless AI agent that reads customer queries and logs categorized data into Sheets. High-impact automation for support teams.",
-                link: "https://github.com/aaduhalde",
-                tech: "OpenAI, Python, Cloud Functions"
+                description: "Built a serverless AI agent that automates data logging into Sheets. High commercial impact.",
+                link: "#",
+                tech: "Python, OpenAI, Cloud Functions"
             },
             {
-                title: "Notion Productivity System: The Ultimate No-Code Data Hub",
+                title: "Notion Productivity System: Ultimate No-Code Hub",
                 tag: "Notion",
                 image: "https://images.unsplash.com/photo-1614332287897-cdc485fa562d?auto=format&fit=crop&q=80&w=800",
-                description: "A complete Notion workspace designed for data tracking and operational efficiency. Scalable, commercial, and zero-maintenance.",
-                link: "https://github.com/aaduhalde",
-                tech: "Notion, API, Automation"
+                description: "Scalable Notion workspace for real-time tracking and operational efficiency.",
+                link: "#",
+                tech: "Notion API, No-Code"
             }
         ];
 
         const container = document.getElementById('posts-container');
-
         posts.forEach(post => {
             container.innerHTML += `
                 <article class="bg-slate-800/60 rounded-2xl overflow-hidden border border-slate-700 card-hover flex flex-col shadow-xl">
-                    <img src="${post.image}" alt="${post.title}" class="w-full h-48 object-cover opacity-80 hover:opacity-100 transition">
+                    <img src="${post.image}" class="w-full h-48 object-cover">
                     <div class="p-6 flex-grow">
-                        <span class="text-xs font-bold uppercase tracking-widest text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full border border-blue-400/20">${post.tag}</span>
-                        <h3 class="text-xl font-bold mt-4 mb-3 text-white leading-tight">${post.title}</h3>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-blue-400 border border-blue-400/30 px-2 py-1 rounded">${post.tag}</span>
+                        <h3 class="text-xl font-bold mt-4 mb-3 text-white">${post.title}</h3>
                         <p class="text-slate-400 text-sm leading-relaxed mb-6">${post.description}</p>
-                        <div class="flex items-center text-[11px] font-mono text-slate-500 bg-slate-900/50 p-2 rounded">
-                            <i class="fas fa-code-branch mr-2 text-blue-500"></i> ${post.tech}
-                        </div>
-                    </div>
-                    <div class="px-6 pb-6 mt-auto">
-                        <a href="${post.link}" class="bg-slate-700 hover:bg-blue-600 text-white text-center block w-full py-2 rounded-lg font-bold text-sm transition">
-                            View Case Study <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                        </a>
+                        <div class="text-[10px] font-mono text-slate-500 bg-slate-900/50 p-2 rounded">Tech: ${post.tech}</div>
                     </div>
                 </article>
             `;
         });
-    </script>
 
-    <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
                 pageLanguage: 'en',
@@ -154,7 +124,6 @@
             }, 'google_translate_element');
         }
     </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
