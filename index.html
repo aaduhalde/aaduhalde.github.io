@@ -210,24 +210,24 @@
         ];
 
         const container = document.getElementById('posts-container');
-        posts.forEach(post => {
-            container.innerHTML += `
-                <article class="bg-slate-800/60 rounded-2xl overflow-hidden border border-slate-700 card-hover flex flex-col">
-                    <img src="${post.image}" alt="${post.title}" class="w-full h-48 object-cover">
-                    <div class="p-6 flex-grow">
-                        <span class="text-xs font-bold uppercase tracking-wider text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full">${post.tag}</span>
-                        <h3 class="text-xl font-bold mt-4 mb-3 text-white">${post.title}</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed mb-4">${post.description}</p>
-                        <div class="text-xs font-mono text-slate-500 mt-auto">Tech: ${post.tech}</div>
-                    </div>
-                    <div class="px-6 pb-6 mt-auto">
-                        <a href="${post.link}" class="text-blue-400 hover:text-blue-300 font-bold text-sm inline-flex items-center">
-                            Read More <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                        </a>
-                    </div>
-                </article>
-            `;
-        });
+                posts.forEach(post => {
+                    container.innerHTML += `
+                        <article class="bg-slate-800/60 rounded-2xl overflow-hidden border border-slate-700 card-hover flex flex-col">
+                            <img src="${post.image}" alt="${post.title}" class="w-full h-48 object-cover">
+                            <div class="p-6 flex-grow">
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full">${post.tag}</span>
+                                <h3 class="text-xl font-bold mt-4 mb-3 text-white">${post.title}</h3>
+                                <p class="text-slate-400 text-sm leading-relaxed mb-4">${post.description}</p>
+                                <div class="text-xs font-mono text-slate-500 mt-auto">Tech: ${post.tech}</div>
+                            </div>
+                            <div class="px-6 pb-6 mt-auto">
+                                <a href="${post.link}" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-300 font-bold text-sm inline-flex items-center">
+                                    Read More <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                                </a>
+                            </div>
+                        </article>
+                    `;
+                });
     </script>
  
 </body>
