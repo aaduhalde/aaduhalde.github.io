@@ -1,133 +1,87 @@
 # Alejandro Adrián Duhalde
+### Data Analyst | BI & Automation Specialist
 
-**Data Analyst | SQL • Dashboards • Automation**
-
-Turning data into actionable insights and building automated solutions for real business impact.
-
----
-
-## About Me
-
-I am a Data Analyst with experience in SQL, dashboards, and automation.  
-I focus on helping businesses understand their data, improve decision-making, and reduce manual work.
-
-I have worked on projects across telecom, energy, and e-commerce, combining technical skills with business understanding.
-
-Currently, I am building real-world projects to demonstrate:
-
-- Data analysis and insights
-- End-to-end data pipelines
-- Business dashboards
-- AI-powered automation
+I build data-driven systems that transform raw data into actionable insights, automated reporting, and real business decisions.
 
 ---
 
 ## What I Do
 
-- Analyze data using SQL and Python  
-- Build dashboards for business decision-making  
-- Automate reporting and workflows  
-- Design simple data pipelines (ETL)  
-- Apply AI tools to real business problems  
+- Design dashboards and KPI tracking systems  
+- Analyze business performance using SQL & Python  
+- Automate reporting workflows (up to 90% reduction in manual work)  
+- Build end-to-end data solutions from ingestion to insights  
 
 ---
 
-## Featured Projects
+## End-to-End Analytics System
 
-### Business Intelligence & Analytics  
-**[business-intelligence-ops](#)**  
-Data analysis and dashboards to generate business insights.
+This portfolio demonstrates a complete **Market Intelligence & Decision System**, combining data engineering, analytics, and automation.
 
-- SQL analysis for trends and KPIs  
-- Data transformation and cleaning  
-- Dashboard-ready datasets  
-- Focus on decision-making  
+### 🔹 Core Data Platform  
+**market-intelligence-data-warehouse**  
+Enterprise-style data warehouse with ETL pipelines, data validation, and dimensional modeling.  
+Data ingestion → transformation → analytics-ready datasets  
 
 ---
 
-### AI & Automation  
-**[omnichannel-ai-agent-ecosystem](#)**  
-Automation solutions using AI and workflows.
-
-- AI chatbot for customer support  
-- Data logging into Google Sheets  
-- Workflow automation  
-- Real business use cases  
+### 🔹 BI & Analytics Layer  
+**business-intelligence-ops**  
+Dashboards and KPI tracking systems designed to generate business insights and support decision-making.  
 
 ---
 
-### Data Engineering & Modeling  
-**[market-intelligence-data-warehouse](#)**  
-End-to-end data platform for analytics.
-
-- ETL pipelines with Python  
-- SQL Server data warehouse (Star Schema)  
-- Data quality validation  
-- Analytical datasets for BI tools  
+### 🔹 AI & Automation Layer  
+**omnichannel-ai-agent-ecosystem**  
+AI agents and automation workflows that capture, process, and structure data for analytics.  
 
 ---
 
-## Key Skills
+### End-to-End Flow
+
+```text
+Data Sources → ETL → Data Warehouse → Dashboards → AI Automation → Business Decisions
+```
+---
+
+## Tech Stack
 
 **Data & Analytics**
-- SQL (T-SQL, PL/SQL)
-- Data Analysis
-- Data Cleaning
-- Business Insights
 
-**BI & Visualization**
-- Power BI
-- Looker
-- Dashboard Design
+- SQL (T-SQL, PL/SQL)
+- Python (Pandas, NumPy)
+- Power BI / Looker
 
 **Data Engineering**
+
 - ETL Pipelines
 - Data Modeling (Star Schema)
-- Data Quality
-
-**Programming & Tools**
-- Python (Pandas, NumPy)
-- Node.js
-- Docker
-- Git
+- Data Warehousing
 
 **Cloud & Automation**
-- Azure (Functions, Data Factory)
-- AWS (S3)
-- Serverless workflows
+
+- Azure (Functions, Data Factory, Logic Apps)
+- AWS (S3, Boto3)
+- Serverless Architectures
 
 ---
 
-## Example Insights (from my projects)
+## Key Focus
 
-- Remote job demand increased in LATAM in recent years  
-- SQL and Python are among the most requested skills  
-- Data automation can reduce manual reporting time by up to 90%  
+- Data Analysis & Business Insights
+- Dashboard Development
+- Reporting Automation
+- Data Quality & Reliability
+- Scalable Data Workflows
 
----
+## Business Impact
 
-## Currently Focused On
-
-- Improving SQL for analytics  
-- Building business dashboards  
-- Practicing data storytelling  
-- Applying AI in real use cases  
-
----
+- Reduced manual reporting workload by up to 90%
+- Improved reporting efficiency by 40%
+- Enabled faster, data-driven decision-making
+- Built scalable analytics systems across multiple industries
 
 ## Contact
 
 - LinkedIn: http://www.linkedin.com/in/aaduhalde  
 - Email: aaduhalde@outlook.es  
-
----
-
-## Goal
-
-My goal is to join a data team where I can:
-
-- Work with real datasets  
-- Deliver insights for business decisions  
-- Continue growing in data analytics and engineering  
-
----
