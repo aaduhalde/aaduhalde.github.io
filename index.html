@@ -118,13 +118,39 @@
             const input = document.getElementById("chat-input");
             const typingIndicator = document.getElementById("typing-indicator");
 
-            button.onclick = () => {
+            // Identificador de sesión persistente por pestaña
+            let userId = sessionStorage.getItem("aaduhalde_chat_session");
+            if (!userId) {
+                userId = "session_" + Math.random().toString(36).substring(2, 10);
+                sessionStorage.setItem("aaduhalde_chat_session", userId);
+            }
+
+            // Saludo por defecto en EN por si falla la respuesta inicial
+            const DEFAULT_WELCOME_EN = "👋 **Hello! I am MARLA**, Virtual Assistant for Alejandro Duhalde.\n\nPlease reply with your preferred option:\n1️⃣ **Continuar en Español**\n2️⃣ **Continue in English**";
+
+            button.onclick = async () => {
                 const isHidden = windowChat.style.display === "none";
                 windowChat.style.display = isHidden ? "flex" : "none";
-                if(isHidden) {
+                
+                if (isHidden) {
                     input.focus();
-                    if(messages.children.length === 0) {
-                        setTimeout(() => addMessage("Bot", "Start chatting..."), 500);
+                    
+                    // Si la ventana está vacía, solicitamos el saludo inicial al Worker
+                    if (messages.children.length === 0) {
+                        typingIndicator.style.display = "block";
+                        try {
+                            const response = await fetch(workerURL, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ message: "", userId: userId })
+                            });
+                            const data = await response.json();
+                            typingIndicator.style.display = "none";
+                            addMessage("Bot", data.reply || DEFAULT_WELCOME_EN);
+                        } catch (err) {
+                            typingIndicator.style.display = "none";
+                            addMessage("Bot", DEFAULT_WELCOME_EN);
+                        }
                     }
                 }
             };
@@ -152,11 +178,11 @@
                     const response = await fetch(workerURL, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ message: text })
+                        body: JSON.stringify({ message: text, userId: userId })
                     });
                     const data = await response.json();
                     typingIndicator.style.display = "none";
-                    addMessage("Bot", data.reply || "I'm sorry, I couldn't process your request.");
+                    addMessage("Bot", data.reply || "I'm sorry, I couldn't process your request. Type 'MENU' to restart.");
                 } catch (err) {
                     typingIndicator.style.display = "none";
                     addMessage("Bot", "Connection error. Please try again. 🔌");
