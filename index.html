@@ -91,7 +91,7 @@
 
         <div id="chatbot-wrapper">
             <div id="chat-button" style="position:fixed; bottom:20px; right:20px; background:#2563eb; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease; overflow: hidden;">
-                <img src="images/marla.png" alt="Icono del chat" style="width: 100%; height: 100%; object-fit: cover;">
+            <img src="images/marla.png" alt="Icono del chat" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
         </div>
 
@@ -99,14 +99,14 @@
             <div style="background:#2563eb; color:white; padding:15px; font-weight:bold; display:flex; align-items:center; gap:10px;">
                 <div style="width:10px; height:10px; background:#4ade80; border-radius:50%; box-shadow: 0 0 5px #4ade80;"></div>
                 aaduhalde - AI Assistant
-            </div>
-            <div id="chat-messages" style="flex:1; padding:15px; overflow-y:auto; background:#f8f9fa; display:flex; flex-direction:column; gap:10px; color:#333;"></div>
-            <div id="typing-indicator" style="padding: 10px 15px; font-size: 12px; color: #888; display: none; background: #f8f9fa; font-style: italic;">Marla is typing...</div>
-            <div style="border-top:1px solid #eee; padding:12px; background:white;">
+                </div>
+                <div id="chat-messages" style="flex:1; padding:15px; overflow-y:auto; background:#f8f9fa; display:flex; flex-direction:column; gap:10px; color:#333;"></div>
+                <div id="typing-indicator" style="padding: 10px 15px; font-size: 12px; color: #888; display: none; background: #f8f9fa; font-style: italic;">Marla is typing...</div>
+                <div style="border-top:1px solid #eee; padding:12px; background:white;">
                 <input id="chat-input" type="text" placeholder="Type a message..." style="width:100%; border:none; outline:none; font-size:14px; color:#333; background:transparent;">
+                </div>
             </div>
         </div>
-    </div>
 
     <script>
         // Chatbot Logic
@@ -174,7 +174,15 @@
 
         // Posts Renderer
         const posts = [
-/*
+        {
+            title: "AI Agent Automation: Omnichannel Data Capture & Processing",
+            tag: "AI Automation",
+            image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
+            description: "AI-powered automation system that captures user inputs, generates responses, and converts unstructured data into structured datasets. Designed to reduce manual work and feed analytics systems. Flow: User input → AI → Data structuring → Storage → BI.",
+            link: "https://aaduhalde.github.io/omnichannel-ai-agent-ecosystem/",
+            tech: "OpenAI, Python, APIs, Serverless"
+        }
+/*,
         {
             title: "Market Intelligence Data Warehouse: End-to-End Analytics Platform",
             tag: "Data Platform",
@@ -191,16 +199,6 @@
             link: "https://github.com/aaduhalde/business-intelligence-ops/",
             tech: "Power BI, SQL, Data Visualization"
         },
-*/
-        {
-            title: "AI Agent Automation: Omnichannel Data Capture & Processing",
-            tag: "AI Automation",
-            image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
-            description: "AI-powered automation system that captures user inputs, generates responses, and converts unstructured data into structured datasets. Designed to reduce manual work and feed analytics systems. Flow: User input → AI → Data structuring → Storage → BI.",
-            link: "https://aaduhalde.github.io/omnichannel-ai-agent-ecosystem/",
-            tech: "OpenAI, Python, APIs, Serverless"
-        }
-/*,
         {
             title: "Operational Analytics System: Lead Tracking & KPI Automation",
             tag: "Automation & BI",
