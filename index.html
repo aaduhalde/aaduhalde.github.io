@@ -195,7 +195,7 @@
             });
         })();
 
-        // 2. LISTA DE POSTS (Manteniendo comentados los de referencia)
+        // 2. LISTA DE POSTS (Asegúrate de que la propiedad 'file' apunte al nombre exacto de tu archivo HTML)
         const posts = [
             {
                 id: "omnichannel",
@@ -203,7 +203,7 @@
                 tag: "AI Automation",
                 image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
                 description: "AI-powered automation system that captures user inputs, generates responses, and converts unstructured data into structured datasets. Designed to reduce manual work and feed analytics systems. Flow: User input → AI → Data structuring → Storage → BI.",
-                file: "omnichannel.html",
+                file: "omnichannel.html", // Nombre del archivo secundario en el mismo repositorio
                 tech: "OpenAI, Python, APIs, Serverless"
             }
             /*,
@@ -215,56 +215,11 @@
                 description: "End-to-end analytics platform that ingests market data, applies validation and transformation, and builds a SQL-based data warehouse using a Star Schema. Provides reliable, analytics-ready datasets for BI and decision-making. Flow: Raw data → ETL → Data Warehouse → BI.",
                 file: "market.html",
                 tech: "Python, SQL Server, ETL, Data Modeling"
-            },
-            {
-                id: "bi-ops",
-                title: "Business Intelligence Ops: KPI Dashboards & Analytics Layer",
-                tag: "BI & Analytics",
-                image: "https://plus.unsplash.com/premium_photo-1682126255537-d3d08524f263?auto=format&fit=crop&q=80&w=800",
-                description: "Business Intelligence layer that transforms structured data into interactive dashboards and KPIs. Enables real-time visibility into performance, trends, and business metrics for faster decision-making. Flow: Data Warehouse → Modeling → Dashboard → Insights.",
-                file: "bi-ops.html",
-                tech: "Power BI, SQL, Data Visualization"
-            },
-            {
-                id: "leadflow",
-                title: "Operational Analytics System: Lead Tracking & KPI Automation",
-                tag: "Automation & BI",
-                image: "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&q=80&w=800",
-                description: "End-to-end operational analytics system that automates lead capture, tracking, and KPI reporting. Replaces manual processes with structured workflows and real-time dashboards for business visibility. Flow: Input → Processing → Storage → Dashboard.",
-                file: "leadflow.html",
-                tech: "Google Sheets, Python, Power BI"
             }
             */
         ];
 
-        // Guardar la vista principal inicial en la variable global
-        const homeHTML = document.getElementById('content').innerHTML;
-
-        function renderPosts() {
-            const container = document.getElementById('posts-container');
-            if (!container) return;
-            container.innerHTML = "";
-            posts.forEach(post => {
-                container.innerHTML += `
-                    <article class="bg-slate-800/60 rounded-2xl overflow-hidden border border-slate-700 card-hover flex flex-col">
-                        <img src="${post.image}" alt="${post.title}" class="w-full h-48 object-cover">
-                        <div class="p-6 flex-grow">
-                            <span class="text-xs font-bold uppercase tracking-wider text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full">${post.tag}</span>
-                            <h3 class="text-xl font-bold mt-4 mb-3 text-white">${post.title}</h3>
-                            <p class="text-slate-400 text-sm leading-relaxed mb-4">${post.description}</p>
-                            <div class="text-xs font-mono text-slate-500 mt-auto">Tech: ${post.tech}</div>
-                        </div>
-                        <div class="px-6 pb-6 mt-auto">
-                            <a href="#" onclick="loadPage('${post.file}', event)" class="text-blue-400 hover:text-blue-300 font-bold text-sm inline-flex items-center">
-                                Read More <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                            </a>
-                        </div>
-                    </article>
-                `;
-            });
-        }
-
-        // 3. ENROUTADOR Y CARGADOR DINÁMICO (FETCH DE PÁGINAS DENTRO DE MAIN)
+        // 3. ENROUTADOR Y CARGADOR DINÁMICO REVISADO
         async function loadPage(pageFile, event) {
             if (event) event.preventDefault();
             const mainContent = document.getElementById('content');
@@ -277,13 +232,17 @@
             }
 
             try {
-                const response = await fetch(pageFile);
-                if (!response.ok) throw new Error("Página no encontrada");
-                const html = await response.text();
+                // Obtenemos la ruta relativa basada en la ubicación actual de la página
+                const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+                const targetUrl = basePath + pageFile;
+
+                const response = await fetch(targetUrl);
+                if (!response.ok) throw new Error(`HTTP ${response.status} - No se pudo encontrar ${pageFile}`);
                 
+                const html = await response.text();
                 mainContent.innerHTML = html;
 
-                // Ejecutar scripts dentro del HTML cargado dinámicamente
+                // Re-ejecutar scripts contenidos dentro de la vista cargada dinámicamente
                 const scripts = mainContent.querySelectorAll("script");
                 scripts.forEach(script => {
                     const newScript = document.createElement("script");
@@ -293,7 +252,14 @@
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } catch (err) {
-                mainContent.innerHTML = `<div class="text-center py-20 text-red-400 font-mono">Error al cargar la vista del proyecto: ${err.message}</div>`;
+                mainContent.innerHTML = `
+                    <div class="text-center py-20 text-red-400 font-mono">
+                        <i class="fas fa-exclamation-triangle text-3xl mb-3"></i>
+                        <p>Error al cargar la vista del proyecto: ${err.message}</p>
+                        <button onclick="loadPage('home', event)" class="mt-4 bg-slate-700 hover:bg-slate-600 text-white text-xs px-4 py-2 rounded-lg transition">
+                            Volver al Inicio
+                        </button>
+                    </div>`;
             }
         }
 
