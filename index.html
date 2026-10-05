@@ -200,7 +200,7 @@
             });
         })();
 
-        // 2. LISTA DE POSTS (Ruta apuntando directamente al archivo RAW del repositorio objetivo)
+        // 2. LISTA DE POSTS
         const posts = [
             {
                 id: "omnichannel",
@@ -210,7 +210,37 @@
                 description: "AI-powered automation system that captures user inputs, generates responses, and converts unstructured data into structured datasets. Designed to reduce manual work and feed analytics systems. Flow: User input → AI → Data structuring → Storage → BI.",
                 file: "https://raw.githubusercontent.com/aaduhalde/omnichannel-ai-agent-ecosystem/main/index.html",
                 tech: "OpenAI, Python, APIs, Serverless"
+            },
+            {
+                id: "market",
+                title: "Market Intelligence Data Warehouse: End-to-End Analytics Platform",
+                tag: "Data Platform",
+                image: "https://images.pexels.com/photos/9783346/pexels-photo-9783346.jpeg?auto=compress&cs=tinysrgb&w=800",
+                description: "End-to-end analytics platform that ingests market data, applies validation and transformation, and builds a SQL-based data warehouse using a Star Schema. Provides reliable, analytics-ready datasets for BI and decision-making. Flow: Raw data → ETL → Data Warehouse → BI.",
+                file: "market.html",
+                tech: "Python, SQL Server, ETL, Data Modeling"
             }
+            /*
+            ,
+            {
+                id: "bi-ops",
+                title: "Business Intelligence Ops: KPI Dashboards & Analytics Layer",
+                tag: "BI & Analytics",
+                image: "https://plus.unsplash.com/premium_photo-1682126255537-d3d08524f263?auto=format&fit=crop&q=80&w=800",
+                description: "Business Intelligence layer that transforms structured data into interactive dashboards and KPIs. Enables real-time visibility into performance, trends, and business metrics for faster decision-making. Flow: Data Warehouse → Modeling → Dashboard → Insights.",
+                file: "bi-ops.html",
+                tech: "Power BI, SQL, Data Visualization"
+            },
+            {
+                id: "leadflow",
+                title: "Operational Analytics System: Lead Tracking & KPI Automation",
+                tag: "Automation & BI",
+                image: "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&q=80&w=800",
+                description: "End-to-end operational analytics system that automates lead capture, tracking, and KPI reporting. Replaces manual processes with structured workflows and real-time dashboards for business visibility. Flow: Input → Processing → Storage → Dashboard.",
+                file: "leadflow.html",
+                tech: "Google Sheets, Python, Power BI"
+            }
+            */
         ];
 
         // Función para renderizar las tarjetas en la vista principal
