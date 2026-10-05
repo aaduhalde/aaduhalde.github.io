@@ -14,7 +14,7 @@
 </head>
 <body class="data-gradient text-slate-200 min-h-screen flex flex-col justify-between">
 
-    <!-- HEADER GLOBAL (Cargado 1 sola vez) -->
+    <!-- HEADER GLOBAL -->
     <header class="container mx-auto px-6 py-16 text-center">
         <h1 class="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
             <a href="index.html" onclick="loadPage('home', event)" class="hover:opacity-90">Alejandro Adrián Duhalde</a>
@@ -29,34 +29,36 @@
         </div>
     </header>
 
-    <!-- CONTENEDOR DINÁMICO (Aquí se inyectan las vistas) -->
+    <!-- CONTENEDOR DINÁMICO -->
     <main id="content" class="container mx-auto px-6 mb-12">
         <!-- Contenido inicial (Home) -->
-        <section class="grid md:grid-cols-3 gap-6 mb-20 text-sm">
-            <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700">
-                <h3 class="font-bold text-blue-400 mb-2 underline">What I Do</h3>
-                <p>Optimize SQL Server, Build ETL Pipelines (Azure/AWS), and automate 90% of manual reporting.</p>
-            </div>
-            <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700">
-                <h3 class="font-bold text-emerald-400 mb-2 underline">Tech Stack</h3>
-                <p>Python, T-SQL, Serverless, Power BI, RAG (GenAI), and Multi-cloud integrations.</p>
-            </div>
-            <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700">
-                <h3 class="font-bold text-purple-400 mb-2 underline">Experience</h3>
-                <p>+15 years delivering high-impact data systems across telecom, energy, and e-commerce.</p>
-            </div>
-        </section>
+        <div id="home-view">
+            <section class="grid md:grid-cols-3 gap-6 mb-20 text-sm">
+                <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700">
+                    <h3 class="font-bold text-blue-400 mb-2 underline">What I Do</h3>
+                    <p>Optimize SQL Server, Build ETL Pipelines (Azure/AWS), and automate 90% of manual reporting.</p>
+                </div>
+                <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700">
+                    <h3 class="font-bold text-emerald-400 mb-2 underline">Tech Stack</h3>
+                    <p>Python, T-SQL, Serverless, Power BI, RAG (GenAI), and Multi-cloud integrations.</p>
+                </div>
+                <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700">
+                    <h3 class="font-bold text-purple-400 mb-2 underline">Experience</h3>
+                    <p>+15 years delivering high-impact data systems across telecom, energy, and e-commerce.</p>
+                </div>
+            </section>
 
-        <section id="posts" class="mb-20">
-            <div class="flex items-center justify-between mb-10">
-                <h2 class="text-3xl font-bold italic"><i class="fas fa-terminal text-blue-500 mr-2"></i> Latest Insights & Projects</h2>
-                <span class="text-slate-500 text-sm">Sorted by: Newest</span>
-            </div>
-            <div id="posts-container" class="grid md:grid-cols-2 gap-8"></div>
-        </section>
+            <section id="posts" class="mb-20">
+                <div class="flex items-center justify-between mb-10">
+                    <h2 class="text-3xl font-bold italic"><i class="fas fa-terminal text-blue-500 mr-2"></i> Latest Insights & Projects</h2>
+                    <span class="text-slate-500 text-sm">Sorted by: Newest</span>
+                </div>
+                <div id="posts-container" class="grid md:grid-cols-2 gap-8"></div>
+            </section>
+        </div>
     </main>
 
-    <!-- FOOTER GLOBAL (Cargado 1 sola vez) -->
+    <!-- FOOTER GLOBAL -->
     <footer id="contact" class="border-t border-slate-800 py-12 bg-slate-900/50 text-center">
         <div class="flex justify-center items-center gap-8 text-2xl mb-6">
             <a href="mailto:aaduhalde@outlook.es" title="Email Me" class="hover:text-blue-500 transition flex items-center justify-center">
@@ -90,7 +92,7 @@
         </div>
     </footer>
 
-    <!-- CHATBOT MARLA GLOBAL (Cargado 1 sola vez) -->
+    <!-- CHATBOT MARLA GLOBAL -->
     <div id="chatbot-wrapper">
         <div id="chat-button" style="position:fixed; bottom:20px; right:20px; background:#2563eb; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease; overflow: hidden;">
             <img src="images/marla.png" alt="Icono del chat" style="width: 100%; height: 100%; object-fit: cover;">
@@ -110,6 +112,9 @@
     </div>
 
     <script>
+        // Guardar HTML del inicio para volver fácilmente
+        const homeHTML = document.getElementById('home-view').outerHTML;
+
         // 1. CHATBOT MARLA LOGIC
         (function() {
             const workerURL = "https://aaduhalde-chatbot.aaduhalde.workers.dev/";
@@ -195,7 +200,7 @@
             });
         })();
 
-        // 2. LISTA DE POSTS (Asegúrate de que la propiedad 'file' apunte al nombre exacto de tu archivo HTML)
+        // 2. LISTA DE POSTS (Ruta apuntando directamente al archivo RAW del repositorio objetivo)
         const posts = [
             {
                 id: "omnichannel",
@@ -203,23 +208,37 @@
                 tag: "AI Automation",
                 image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
                 description: "AI-powered automation system that captures user inputs, generates responses, and converts unstructured data into structured datasets. Designed to reduce manual work and feed analytics systems. Flow: User input → AI → Data structuring → Storage → BI.",
-                file: "omnichannel.html", // Nombre del archivo secundario en el mismo repositorio
+                file: "https://raw.githubusercontent.com/aaduhalde/omnichannel-ai-agent-ecosystem/main/index.html",
                 tech: "OpenAI, Python, APIs, Serverless"
             }
-            /*,
-            {
-                id: "market",
-                title: "Market Intelligence Data Warehouse: End-to-End Analytics Platform",
-                tag: "Data Platform",
-                image: "https://images.pexels.com/photos/9783346/pexels-photo-9783346.jpeg?auto=compress&cs=tinysrgb&w=800",
-                description: "End-to-end analytics platform that ingests market data, applies validation and transformation, and builds a SQL-based data warehouse using a Star Schema. Provides reliable, analytics-ready datasets for BI and decision-making. Flow: Raw data → ETL → Data Warehouse → BI.",
-                file: "market.html",
-                tech: "Python, SQL Server, ETL, Data Modeling"
-            }
-            */
         ];
 
-        // 3. ENROUTADOR Y CARGADOR DINÁMICO REVISADO
+        // Función para renderizar las tarjetas en la vista principal
+        function renderPosts() {
+            const container = document.getElementById('posts-container');
+            if (!container) return;
+            
+            container.innerHTML = posts.map(post => `
+                <article class="bg-slate-800/40 rounded-2xl border border-slate-700/80 overflow-hidden card-hover flex flex-col justify-between">
+                    <div>
+                        <img src="${post.image}" alt="${post.title}" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-xs font-mono bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full">${post.tag}</span>
+                            <h3 class="text-xl font-bold mt-4 mb-2 text-slate-100">${post.title}</h3>
+                            <p class="text-slate-400 text-sm mb-4 leading-relaxed">${post.description}</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 flex justify-between items-center border-t border-slate-700/50 mt-4">
+                        <span class="text-xs font-mono text-slate-500">${post.tech}</span>
+                        <button onclick="loadPage('${post.file}', event)" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-4 py-2 rounded-lg transition">
+                            Read Post →
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // 3. ENROUTADOR Y CARGADOR DINÁMICO
         async function loadPage(pageFile, event) {
             if (event) event.preventDefault();
             const mainContent = document.getElementById('content');
@@ -232,17 +251,18 @@
             }
 
             try {
-                // Obtenemos la ruta relativa basada en la ubicación actual de la página
-                const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-                const targetUrl = basePath + pageFile;
+                // Determina si es una URL completa (http/https) o relativa
+                const targetUrl = pageFile.startsWith('http') 
+                    ? pageFile 
+                    : window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + pageFile;
 
                 const response = await fetch(targetUrl);
-                if (!response.ok) throw new Error(`HTTP ${response.status} - No se pudo encontrar ${pageFile}`);
+                if (!response.ok) throw new Error(`HTTP ${response.status} - No se pudo encontrar el recurso`);
                 
                 const html = await response.text();
                 mainContent.innerHTML = html;
 
-                // Re-ejecutar scripts contenidos dentro de la vista cargada dinámicamente
+                // Re-ejecutar scripts que vengan en la vista dinámicamente cargada
                 const scripts = mainContent.querySelectorAll("script");
                 scripts.forEach(script => {
                     const newScript = document.createElement("script");
@@ -263,7 +283,7 @@
             }
         }
 
-        // Renderizado inicial de posts
+        // Carga inicial de tarjetas
         renderPosts();
     </script>
 </body>
