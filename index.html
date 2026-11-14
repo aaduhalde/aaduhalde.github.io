@@ -91,114 +91,138 @@
             </a>
         </div>
     </footer>
-
-    <!-- CHATBOT MARLA GLOBAL -->
-    <div id="chatbot-wrapper">
-        <div id="chat-button" style="position:fixed; bottom:20px; right:20px; background:#2563eb; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease; overflow: hidden;">
-            <img src="images/marla.png" alt="Icono del chat" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
+<!-- CHATBOT MARLA GLOBAL -->
+<div id="chatbot-wrapper">
+    <div id="chat-button" style="position:fixed; bottom:20px; right:20px; background:#2563eb; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease; overflow: hidden;">
+        <img src="images/marla.png" alt="Icono del chat" style="width: 100%; height: 100%; object-fit: cover;">
     </div>
+</div>
 
-    <div id="chat-window" style="position:fixed; bottom:90px; right:20px; width:320px; height:450px; background:white; border:1px solid #e0e0e0; border-radius:15px; display:none; flex-direction:column; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; z-index:9999; box-shadow: 0 8px 24px rgba(0,0,0,0.2); overflow:hidden;">
-        <div style="background:#2563eb; color:white; padding:15px; font-weight:bold; display:flex; align-items:center; gap:10px;">
+<div id="chat-window" style="position:fixed; bottom:90px; right:20px; width:320px; height:480px; background:white; border:1px solid #e0e0e0; border-radius:15px; display:none; flex-direction:column; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; z-index:9999; box-shadow: 0 8px 24px rgba(0,0,0,0.2); overflow:hidden;">
+    <div style="background:#2563eb; color:white; padding:15px; font-weight:bold; display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:10px;">
             <div style="width:10px; height:10px; background:#4ade80; border-radius:50%; box-shadow: 0 0 5px #4ade80;"></div>
-            aaduhalde - AI Assistant
+            MARLA - AI Assistant
         </div>
-        <div id="chat-messages" style="flex:1; padding:15px; overflow-y:auto; background:#f8f9fa; display:flex; flex-direction:column; gap:10px; color:#333;"></div>
-        <div id="typing-indicator" style="padding: 10px 15px; font-size: 12px; color: #888; display: none; background: #f8f9fa; font-style: italic;">Marla is typing...</div>
-        <div style="border-top:1px solid #eee; padding:12px; background:white;">
-            <input id="chat-input" type="text" placeholder="Type a message..." style="width:100%; border:none; outline:none; font-size:14px; color:#333; background:transparent;">
+        <!-- Botón para reiniciar chat de forma manual si el usuario lo desea -->
+        <button id="restart-chat-btn" title="Reiniciar chat" style="background:transparent; border:none; color:white; cursor:pointer; font-size:16px;" onclick="location.reload();">🔄</button>
+    </div>
+    
+    <div id="chat-messages" style="flex:1; padding:15px; overflow-y:auto; background:#f8f9fa; display:flex; flex-direction:column; gap:10px; color:#333;"></div>
+    
+    <div id="typing-indicator" style="padding: 10px 15px; font-size: 12px; color: #888; display: none; background: #f8f9fa; font-style: italic;">Marla is typing...</div>
+    
+    <!-- Contenedor del Botón de Inicio / Input de Texto -->
+    <div id="chat-footer" style="border-top:1px solid #eee; padding:12px; background:white;">
+        <div id="start-action-container" style="display: flex; justify-content: center;">
+            <button id="start-chat-btn" style="background:#2563eb; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:600; cursor:pointer; width:100%; transition: background 0.2s;">Comenzar la charla / Start Chat</button>
+        </div>
+        <div id="input-action-container" style="display: none;">
+            <input id="chat-input" type="text" placeholder="Type a message or option..." style="width:100%; border:none; outline:none; font-size:14px; color:#333; background:transparent;">
         </div>
     </div>
+</div>
 
-    <script>
-        // Guardar HTML del inicio para volver fácilmente
-        const homeHTML = document.getElementById('home-view').outerHTML;
+<script>
+    // 1. CHATBOT MARLA LOGIC
+    (function() {
+        const workerURL = "https://aaduhalde-chatbot.aaduhalde.workers.dev/";
+        const button = document.getElementById("chat-button");
+        const windowChat = document.getElementById("chat-window");
+        const messages = document.getElementById("chat-messages");
+        const input = document.getElementById("chat-input");
+        const typingIndicator = document.getElementById("typing-indicator");
+        const startChatBtn = document.getElementById("start-chat-btn");
+        const startActionContainer = document.getElementById("start-action-container");
+        const inputActionContainer = document.getElementById("input-action-container");
 
-        // 1. CHATBOT MARLA LOGIC
-        (function() {
-            const workerURL = "https://aaduhalde-chatbot.aaduhalde.workers.dev/";
-            const button = document.getElementById("chat-button");
-            const windowChat = document.getElementById("chat-window");
-            const messages = document.getElementById("chat-messages");
-            const input = document.getElementById("chat-input");
-            const typingIndicator = document.getElementById("typing-indicator");
+        // REGLA DE ORO: Cada vez que se carga o refresca la página, borramos cualquier sesión anterior 
+        // para garantizar que inicie una conversación completamente desde cero en Cloudflare Workers y KV.
+        sessionStorage.removeItem("aaduhalde_chat_session");
+        
+        let userId = "session_" + Math.random().toString(36).substring(2, 10);
+        sessionStorage.setItem("aaduhalde_chat_session", userId);
 
-            let userId = sessionStorage.getItem("aaduhalde_chat_session");
-            if (!userId) {
-                userId = "session_" + Math.random().toString(36).substring(2, 10);
-                sessionStorage.setItem("aaduhalde_chat_session", userId);
-            }
+        const DEFAULT_WELCOME_EN = "👋 **Hello! I am MARLA**, Virtual Assistant for Alejandro Duhalde.\n\nPlease reply with your preferred option:\n1️⃣ **Continuar en Español**\n2️⃣ **Continue in English**";
 
-            const DEFAULT_WELCOME_EN = "👋 **Hello! I am MARLA**, Virtual Assistant for Alejandro Duhalde.\n\nPlease reply with your preferred option:\n1️⃣ **Continuar en Español**\n2️⃣ **Continue in English**";
-
-            button.onclick = async () => {
-                const isHidden = windowChat.style.display === "none";
-                windowChat.style.display = isHidden ? "flex" : "none";
-                
-                if (isHidden) {
-                    input.focus();
-                    if (messages.children.length === 0) {
-                        typingIndicator.style.display = "block";
-                        try {
-                            const response = await fetch(workerURL, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ message: "", userId: userId })
-                            });
-                            const data = await response.json();
-                            typingIndicator.style.display = "none";
-                            addMessage("Bot", data.reply || DEFAULT_WELCOME_EN);
-                        } catch (err) {
-                            typingIndicator.style.display = "none";
-                            addMessage("Bot", DEFAULT_WELCOME_EN);
-                        }
-                    }
-                }
-            };
-
-            function addMessage(sender, text) {
-                const isBot = sender === "Bot";
-                const msgDiv = document.createElement("div");
-                msgDiv.style.alignSelf = isBot ? "flex-start" : "flex-end";
-                msgDiv.style.maxWidth = "85%";
-                msgDiv.style.padding = "10px 14px";
-                msgDiv.style.borderRadius = "12px";
-                msgDiv.style.fontSize = "14px";
-                msgDiv.style.lineHeight = "1.5";
-                msgDiv.style.background = isBot ? "#e9ecef" : "#2563eb";
-                msgDiv.style.color = isBot ? "#333" : "white";
-                msgDiv.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-                messages.appendChild(msgDiv);
-                messages.scrollTop = messages.scrollHeight;
-            }
-
-            async function sendMessage(text) {
-                addMessage("You", text);
-                typingIndicator.style.display = "block";
-                try {
-                    const response = await fetch(workerURL, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ message: text, userId: userId })
-                    });
-                    const data = await response.json();
-                    typingIndicator.style.display = "none";
-                    addMessage("Bot", data.reply || "I'm sorry, I couldn't process your request. Type 'MENU' to restart.");
-                } catch (err) {
-                    typingIndicator.style.display = "none";
-                    addMessage("Bot", "Connection error. Please try again. 🔌");
+        button.onclick = () => {
+            const isHidden = windowChat.style.display === "none";
+            windowChat.style.display = isHidden ? "flex" : "none";
+            
+            if (isHidden) {
+                // Si se abre la ventana por primera vez en la visita, mostramos el botón de "Comenzar la charla"
+                if (messages.children.length === 0) {
+                    startActionContainer.style.display = "flex";
+                    inputActionContainer.style.display = "none";
                 }
             }
+        };
 
-            input.addEventListener("keypress", (e) => {
-                if (e.key === "Enter" && input.value.trim()) {
-                    const text = input.value.trim();
-                    input.value = "";
-                    sendMessage(text);
-                }
-            });
-        })();
+        // Acción al hacer clic en el botón "Comenzar la charla"
+        startChatBtn.onclick = async () => {
+            startActionContainer.style.display = "none";
+            inputActionContainer.style.display = "block";
+            input.focus();
+
+            typingIndicator.style.display = "block";
+            try {
+                // Mensaje vacío inicial para invocar el estado "select_lang" del Worker
+                const response = await fetch(workerURL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: "", userId: userId })
+                });
+                const data = await response.json();
+                typingIndicator.style.display = "none";
+                addMessage("Bot", data.reply || DEFAULT_WELCOME_EN);
+            } catch (err) {
+                typingIndicator.style.display = "none";
+                addMessage("Bot", DEFAULT_WELCOME_EN);
+            }
+        };
+
+        function addMessage(sender, text) {
+            const isBot = sender === "Bot";
+            const msgDiv = document.createElement("div");
+            msgDiv.style.alignSelf = isBot ? "flex-start" : "flex-end";
+            msgDiv.style.maxWidth = "85%";
+            msgDiv.style.padding = "10px 14px";
+            msgDiv.style.borderRadius = "12px";
+            msgDiv.style.fontSize = "14px";
+            msgDiv.style.lineHeight = "1.5";
+            msgDiv.style.background = isBot ? "#e9ecef" : "#2563eb";
+            msgDiv.style.color = isBot ? "#333" : "white";
+            msgDiv.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+            messages.appendChild(msgDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        async function sendMessage(text) {
+            addMessage("You", text);
+            typingIndicator.style.display = "block";
+            try {
+                const response = await fetch(workerURL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: text, userId: userId })
+                });
+                const data = await response.json();
+                typingIndicator.style.display = "none";
+                addMessage("Bot", data.reply || "I'm sorry, I couldn't process your request. Type 'MENU' to restart.");
+            } catch (err) {
+                typingIndicator.style.display = "none";
+                addMessage("Bot", "Connection error. Please try again. 🔌");
+            }
+        }
+
+        input.addEventListener("keypress", (e) => {
+            if (e.key === "Enter" && input.value.trim()) {
+                const text = input.value.trim();
+                input.value = "";
+                sendMessage(text);
+            }
+        });
+    })();
 
         // 2. LISTA DE POSTS
         const posts = [
