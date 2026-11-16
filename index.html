@@ -25,7 +25,7 @@
         </p>
         <div class="flex justify-center gap-4">
             <a href="#contact" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-bold transition">Contact Me</a>
-            <a href="#posts" onclick="loadPage('home', event)" class="border border-slate-700 hover:bg-slate-800 px-8 py-3 rounded-lg transition">Read My Posts</a>
+            <a href="#posts" onclick="loadPage('home', event, 'posts')" class="border border-slate-700 hover:bg-slate-800 px-8 py-3 rounded-lg transition">Read My Posts</a>
         </div>
     </header>
 
@@ -293,24 +293,26 @@
         }
 
         // 3. ENROUTADOR Y CARGADOR DINÁMICO
-        async function loadPage(pageFile, event) {
+        const homeHTML = document.getElementById('content').innerHTML;
+
+        async function loadPage(pageFile, event, targetSection = null) {
             if (event) event.preventDefault();
             const mainContent = document.getElementById('content');
 
             if (pageFile === 'home') {
                 mainContent.innerHTML = homeHTML;
                 renderPosts();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                if (targetSection) {
+                    const el = document.getElementById(targetSection);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
                 return;
             }
 
             try {
-                // Determina si es una URL completa (http/https) o relativa
-                const targetUrl = pageFile.startsWith('http') 
-                    ? pageFile 
-                    : window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + pageFile;
-
-                const response = await fetch(targetUrl);
+                const response = await fetch(pageFile);
                 if (!response.ok) throw new Error(`HTTP ${response.status} - No se pudo encontrar el recurso`);
                 
                 const html = await response.text();
