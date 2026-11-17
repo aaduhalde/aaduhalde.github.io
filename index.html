@@ -91,6 +91,7 @@
             </a>
         </div>
     </footer>
+    
 <!-- CHATBOT MARLA GLOBAL -->
 <div id="chatbot-wrapper">
     <div id="chat-button" style="position:fixed; bottom:20px; right:20px; background:#2563eb; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease; overflow: hidden;">
@@ -104,8 +105,8 @@
             <div style="width:10px; height:10px; background:#4ade80; border-radius:50%; box-shadow: 0 0 5px #4ade80;"></div>
             MARLA - AI Assistant
         </div>
-        <!-- Botón para reiniciar chat de forma manual si el usuario lo desea -->
-        <button id="restart-chat-btn" title="Reiniciar chat" style="background:transparent; border:none; color:white; cursor:pointer; font-size:16px;" onclick="location.reload();">🔄</button>
+        <!-- Botón para reiniciar chat de forma limpia -->
+        <button id="restart-chat-btn" title="Reiniciar chat" style="background:transparent; border:none; color:white; cursor:pointer; font-size:16px;" onclick="restartMarlaChat()">🔄</button>
     </div>
     
     <div id="chat-messages" style="flex:1; padding:15px; overflow-y:auto; background:#f8f9fa; display:flex; flex-direction:column; gap:10px; color:#333;"></div>
@@ -124,6 +125,9 @@
 </div>
 
 <script>
+    // Variable global para que la función del botón la pueda invocar
+    let restartMarlaChat;
+
     // 1. CHATBOT MARLA LOGIC
     (function() {
         const workerURL = "https://aaduhalde-chatbot.aaduhalde.workers.dev/";
@@ -136,12 +140,23 @@
         const startActionContainer = document.getElementById("start-action-container");
         const inputActionContainer = document.getElementById("input-action-container");
 
-        // REGLA DE ORO: Cada vez que se carga o refresca la página, borramos cualquier sesión anterior 
-        // para garantizar que inicie una conversación completamente desde cero en Cloudflare Workers y KV.
-        sessionStorage.removeItem("aaduhalde_chat_session");
-        
-        let userId = "session_" + Math.random().toString(36).substring(2, 10);
-        sessionStorage.setItem("aaduhalde_chat_session", userId);
+        function initNewSession() {
+            sessionStorage.removeItem("aaduhalde_chat_session");
+            let newId = "session_" + Math.random().toString(36).substring(2, 10);
+            sessionStorage.setItem("aaduhalde_chat_session", newId);
+            return newId;
+        }
+
+        let userId = initNewSession();
+
+        // Función global de reinicio limpia
+        restartMarlaChat = function() {
+            userId = initNewSession();
+            messages.innerHTML = ""; // Borra todos los mensajes en pantalla
+            startActionContainer.style.display = "flex";
+            inputActionContainer.style.display = "none";
+            typingIndicator.style.display = "none";
+        };
 
         const DEFAULT_WELCOME_EN = "👋 **Hello! I am MARLA**, Virtual Assistant for Alejandro Duhalde.\n\nPlease reply with your preferred option:\n1️⃣ **Continuar en Español**\n2️⃣ **Continue in English**";
 
@@ -150,7 +165,6 @@
             windowChat.style.display = isHidden ? "flex" : "none";
             
             if (isHidden) {
-                // Si se abre la ventana por primera vez en la visita, mostramos el botón de "Comenzar la charla"
                 if (messages.children.length === 0) {
                     startActionContainer.style.display = "flex";
                     inputActionContainer.style.display = "none";
@@ -158,7 +172,6 @@
             }
         };
 
-        // Acción al hacer clic en el botón "Comenzar la charla"
         startChatBtn.onclick = async () => {
             startActionContainer.style.display = "none";
             inputActionContainer.style.display = "block";
@@ -166,7 +179,6 @@
 
             typingIndicator.style.display = "block";
             try {
-                // Mensaje vacío inicial para invocar el estado "select_lang" del Worker
                 const response = await fetch(workerURL, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -223,6 +235,7 @@
             }
         });
     })();
+</script>
 
         // 2. LISTA DE POSTS
         const posts = [
