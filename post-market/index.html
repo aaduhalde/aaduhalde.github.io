@@ -1,0 +1,126 @@
+<article class="max-w-4xl mx-auto py-8">
+    <!-- Botón Back to Main Page -->
+    <div class="mb-6">
+        <button onclick="loadPage('home', event)" class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm font-bold transition">
+            <i class="fas fa-arrow-left"></i> Back to Main Page
+        </button>
+    </div>
+
+    <!-- HEADER DEL POST -->
+    <header class="text-center mb-12 border-b border-slate-800 pb-8">
+        <div class="inline-flex items-center gap-2 bg-blue-500/10 text-blue-400 px-4 py-1.5 rounded-full font-mono text-xs uppercase tracking-wider mb-6 border border-blue-500/20">
+            <i class="fas fa-database"></i> End-to-End Data Engineering Project
+        </div>
+        <h1 class="text-3xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-emerald-400 to-indigo-400">
+            Market Intelligence Data Warehouse
+        </h1>
+        <p class="text-lg text-slate-400 max-w-3xl mx-auto leading-relaxed">
+            Local ETL pipeline that ingests, normalizes, and models LATAM tech job postings into a
+            <span class="text-blue-400 font-semibold">Star Schema Data Warehouse</span> on SQL Server Local (<code>JobMarketDB</code>), with phase quality gates, Candidate Matching, and CSV export for BI.
+        </p>
+    </header>
+
+    <!-- IMAGEN FEATURED 16:9 -->
+    <section class="mb-12">
+        <div class="w-full aspect-video rounded-2xl overflow-hidden border border-slate-700 shadow-2xl">
+            <img src="https://raw.githubusercontent.com/aaduhalde/market-intelligence-data-warehouse/main/images/marketdata.png"
+                 alt="Market Intelligence Data Warehouse Overview"
+                 class="w-full h-full object-cover">
+        </div>
+    </section>
+
+    <!-- TECH STACK & METRICS -->
+    <section class="grid md:grid-cols-4 gap-6 mb-16 text-sm">
+        <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/80">
+            <div class="text-blue-400 font-mono text-2xl font-bold mb-1">SQL Server</div>
+            <p class="text-slate-400 text-xs">Local <code>JobMarketDB</code> (port 1433, ODBC 18) with staging, warehouse &amp; analytics schemas.</p>
+        </div>
+        <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/80">
+            <div class="text-emerald-400 font-mono text-2xl font-bold mb-1">Python ETL</div>
+            <p class="text-slate-400 text-xs">Incremental SerpAPI ingestion (<code>RUN_SERPAPI_INGEST</code>), Parquet staging &amp; skill regex.</p>
+        </div>
+        <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/80">
+            <div class="text-purple-400 font-mono text-2xl font-bold mb-1">10 Phases</div>
+            <p class="text-slate-400 text-xs">Orchestrated via <code>main.py</code> (<code>--all</code> / <code>--phase</code>) with data quality &amp; CSV audit gates.</p>
+        </div>
+        <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/80">
+            <div class="text-amber-400 font-mono text-2xl font-bold mb-1">Star Schema</div>
+            <p class="text-slate-400 text-xs">Fact table, M:N skill bridge &amp; dimensions exported to <code>data/3_csv</code> for Power BI.</p>
+        </div>
+    </section>
+
+    <!-- DATA PIPELINE ARCHITECTURE -->
+    <section id="architecture" class="mb-16">
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+            <i class="fas fa-network-wired text-blue-500"></i> Data Architecture &amp; Pipeline Flow
+        </h2>
+
+        <div class="grid md:grid-cols-5 gap-4">
+            <div class="bg-slate-800/60 p-5 rounded-xl border border-slate-700 text-center">
+                <i class="fas fa-cloud-download-alt text-2xl text-blue-400 mb-3"></i>
+                <h3 class="font-bold text-white text-sm mb-1">1. Ingestion</h3>
+                <p class="text-slate-400 text-xs">Flag-driven SerpAPI or local JSONs in <code>data/1_raw</code> + state tracking.</p>
+            </div>
+            <div class="bg-slate-800/60 p-5 rounded-xl border border-slate-700 text-center">
+                <i class="fas fa-filter text-2xl text-indigo-400 mb-3"></i>
+                <h3 class="font-bold text-white text-sm mb-1">2. Staging</h3>
+                <p class="text-slate-400 text-xs">Role/skill classification, deduplication &amp; <code>vacantes_staged.parquet</code>.</p>
+            </div>
+            <div class="bg-slate-800/60 p-5 rounded-xl border border-slate-700 text-center">
+                <i class="fas fa-database text-2xl text-emerald-400 mb-3"></i>
+                <h3 class="font-bold text-white text-sm mb-1">3. Staging DB</h3>
+                <p class="text-slate-400 text-xs">T-SQL landing tables in local <code>JobMarketDB</code> (<code>staging</code> schema).</p>
+            </div>
+            <div class="bg-slate-800/60 p-5 rounded-xl border border-slate-700 text-center">
+                <i class="fas fa-cubes text-2xl text-amber-400 mb-3"></i>
+                <h3 class="font-bold text-white text-sm mb-1">4. Star Schema</h3>
+                <p class="text-slate-400 text-xs">Set-based load into <code>warehouse</code> dims, fact &amp; skill bridge tables.</p>
+            </div>
+            <div class="bg-slate-800/60 p-5 rounded-xl border border-slate-700 text-center">
+                <i class="fas fa-chart-pie text-2xl text-purple-400 mb-3"></i>
+                <h3 class="font-bold text-white text-sm mb-1">5. Analytics &amp; CSV</h3>
+                <p class="text-slate-400 text-xs">SQL views, Candidate Matcher &amp; reconciled CSVs in <code>data/3_csv</code>.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BUSINESS RULES HIGHLIGHTS -->
+    <section class="mb-16">
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+            <i class="fas fa-cogs text-emerald-500"></i> Core Business Rules &amp; Features
+        </h2>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700 card-hover">
+                <div class="text-blue-400 font-bold mb-2 flex items-center gap-2">
+                    <i class="fas fa-fingerprint"></i> Deduplication &amp; Snapshots
+                </div>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Deterministic job IDs in Parquet staging and snapshot uniqueness per source, job ID, and capture date in SQL Server.
+                </p>
+            </div>
+            <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700 card-hover">
+                <div class="text-emerald-400 font-bold mb-2 flex items-center gap-2">
+                    <i class="fas fa-tags"></i> Role &amp; Skill Taxonomy
+                </div>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Classifies roles (<code>primary</code>, <code>secondary</code>, <code>legacy_leverage</code>) and extracts skills from YAML taxonomies.
+                </p>
+            </div>
+            <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700 card-hover">
+                <div class="text-purple-400 font-bold mb-2 flex items-center gap-2">
+                    <i class="fas fa-user-check"></i> Candidate Matcher &amp; DQ
+                </div>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Scores role alignment, skill match, and geographic/language accessibility while auditing integrity and CSV exports.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION / GITHUB LINK -->
+    <section class="text-center pt-8 border-t border-slate-800 mt-12">
+        <a href="https://github.com/aaduhalde/market-intelligence-data-warehouse" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-sm font-semibold px-5 py-2.5 rounded-lg transition duration-200 shadow-md">
+            <i class="fab fa-github text-lg"></i> View Repository
+        </a>
+    </section>
+</article>
