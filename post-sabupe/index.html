@@ -1,0 +1,126 @@
+<article class="max-w-4xl mx-auto py-8">
+    <!-- Botón Back to Main Page -->
+    <div class="mb-6">
+        <button onclick="loadPage('home', event)" class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm font-bold transition">
+            <i class="fas fa-arrow-left"></i> Back to Main Page
+        </button>
+    </div>
+
+    <!-- HEADER DEL POST -->
+    <header class="text-center mb-12 border-b border-slate-800 pb-8">
+        <div class="inline-flex items-center gap-2 bg-blue-500/10 text-blue-400 px-4 py-1.5 rounded-full font-mono text-xs uppercase tracking-wider mb-6 border border-blue-500/20">
+            <i class="fas fa-chart-line"></i> End-to-End Business Intelligence &amp; Analytics Project
+        </div>
+        <h1 class="text-3xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-emerald-400 to-indigo-400">
+            Sales &amp; Business Performance
+        </h1>
+        <p class="text-lg text-slate-400 max-w-3xl mx-auto leading-relaxed">
+            Reproducible B2B construction materials analytics solution (<span class="text-blue-400 font-semibold">SEED=42</span>, 2024–2026) across 8 Lima zones, loading
+            <span class="text-emerald-400 font-semibold">stg_demo1</span> and a <span class="text-blue-400 font-semibold">Star Schema</span> (<code>dw_demo1</code>) in SQL Server with <code>pytest</code> checks and DAX measures for Power BI.
+        </p>
+    </header>
+
+    <!-- IMAGEN FEATURED 16:9 -->
+    <section class="mb-12">
+        <div class="w-full aspect-video rounded-2xl overflow-hidden border border-slate-700 shadow-2xl">
+            <img src="/images/post3.png"
+                 alt="Sales and Business Performance Dashboard Overview"
+                 class="w-full h-full object-cover">
+        </div>
+    </section>
+
+    <!-- TECH STACK & METRICS -->
+    <section class="grid md:grid-cols-4 gap-6 mb-16 text-sm">
+        <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/80">
+            <div class="text-blue-400 font-mono text-2xl font-bold mb-1">150k Orders</div>
+            <p class="text-slate-400 text-xs">Synthetic 2024–2026 B2B data (40k / 48k / 62k yearly) across 2,000 customers, 500 products &amp; 50 salespeople.</p>
+        </div>
+        <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/80">
+            <div class="text-emerald-400 font-mono text-2xl font-bold mb-1">SQL Server DW</div>
+            <p class="text-slate-400 text-xs"><code>stg_demo1</code> staging &amp; <code>dw_demo1</code> star schema (<code>FactSales</code> + 6 dimensions) with persisted financial columns.</p>
+        </div>
+        <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/80">
+            <div class="text-purple-400 font-mono text-2xl font-bold mb-1">4 Phases</div>
+            <p class="text-slate-400 text-xs">Orchestrated via <code>main.py</code> (<code>--phase 1..4</code> / <code>--all</code>) with automated <code>pytest</code> validation suites.</p>
+        </div>
+        <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/80">
+            <div class="text-amber-400 font-mono text-2xl font-bold mb-1">DAX &amp; Power BI</div>
+            <p class="text-slate-400 text-xs">Cataloged measures in <code>dax/measures.md</code> (margin, YoY/YTD, Pareto) reconciled against SQL aggregates.</p>
+        </div>
+    </section>
+
+    <!-- DATA PIPELINE ARCHITECTURE -->
+    <section id="architecture" class="mb-16">
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+            <i class="fas fa-network-wired text-blue-500"></i> Pipeline &amp; Analytics Flow
+        </h2>
+
+        <div class="grid md:grid-cols-5 gap-4">
+            <div class="bg-slate-800/60 p-5 rounded-xl border border-slate-700 text-center">
+                <i class="fas fa-code text-2xl text-blue-400 mb-3"></i>
+                <h3 class="font-bold text-white text-sm mb-1">1. Generate</h3>
+                <p class="text-slate-400 text-xs">Deterministic Python scripts (<code>SEED=42</code>) outputting CSVs to <code>data/generated</code>.</p>
+            </div>
+            <div class="bg-slate-800/60 p-5 rounded-xl border border-slate-700 text-center">
+                <i class="fas fa-table text-2xl text-indigo-400 mb-3"></i>
+                <h3 class="font-bold text-white text-sm mb-1">2. Staging</h3>
+                <p class="text-slate-400 text-xs">DDL &amp; batch CSV ingestion into <code>stg_demo1</code> (<code>Completed</code>, <code>Cancelled</code>, <code>Pending</code>).</p>
+            </div>
+            <div class="bg-slate-800/60 p-5 rounded-xl border border-slate-700 text-center">
+                <i class="fas fa-cubes text-2xl text-emerald-400 mb-3"></i>
+                <h3 class="font-bold text-white text-sm mb-1">3. Star Schema</h3>
+                <p class="text-slate-400 text-xs">Loads <code>dw_demo1</code> dimensions and <code>FactSales</code> for <code>Completed</code> orders only.</p>
+            </div>
+            <div class="bg-slate-800/60 p-5 rounded-xl border border-slate-700 text-center">
+                <i class="fas fa-check-double text-2xl text-amber-400 mb-3"></i>
+                <h3 class="font-bold text-white text-sm mb-1">4. SQL &amp; PyTest</h3>
+                <p class="text-slate-400 text-xs">Reconciles counts, revenue, cost &amp; gross profit between staging and <code>FactSales</code>.</p>
+            </div>
+            <div class="bg-slate-800/60 p-5 rounded-xl border border-slate-700 text-center">
+                <i class="fas fa-chart-pie text-2xl text-purple-400 mb-3"></i>
+                <h3 class="font-bold text-white text-sm mb-1">5. DAX &amp; BI</h3>
+                <p class="text-slate-400 text-xs">Semantic model &amp; Power BI dashboards covering trends, customers, products &amp; regions.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BUSINESS RULES HIGHLIGHTS -->
+    <section class="mb-16">
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+            <i class="fas fa-cogs text-emerald-500"></i> Core Business Rules &amp; Analytical Patterns
+        </h2>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700 card-hover">
+                <div class="text-blue-400 font-bold mb-2 flex items-center gap-2">
+                    <i class="fas fa-check-circle"></i> Completed Orders &amp; Attribution
+                </div>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    <code>FactSales</code> filters to <code>Completed</code> orders and derives commercial <code>RegionKey</code> from the assigned salesperson's region.
+                </p>
+            </div>
+            <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700 card-hover">
+                <div class="text-emerald-400 font-bold mb-2 flex items-center gap-2">
+                    <i class="fas fa-chart-area"></i> Seasonality &amp; 2025 Cost Shock
+                </div>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Models Jun–Oct peak season (9% monthly weight) and a 1.14x <code>Steel &amp; Rebar</code> cost spike in Aug–Oct 2025 with price lag from Sep 2025.
+                </p>
+            </div>
+            <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700 card-hover">
+                <div class="text-purple-400 font-bold mb-2 flex items-center gap-2">
+                    <i class="fas fa-calculator"></i> Consistent KPI &amp; DAX Definitions
+                </div>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Computes <code>Revenue</code>, <code>TotalCost</code>, and <code>GrossProfit</code> in SQL and aggregates margins, YoY/YTD, and Pareto ranks in DAX.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION / GITHUB LINK -->
+    <section class="text-center pt-8 border-t border-slate-800 mt-12">
+        <a href="https://github.com/aaduhalde/data-analytics-portfolio/tree/main/02_sales_business_performance" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-sm font-semibold px-5 py-2.5 rounded-lg transition duration-200 shadow-md">
+            <i class="fab fa-github text-lg"></i> View Repository
+        </a>
+    </section>
+</article>
